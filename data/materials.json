@@ -1,0 +1,169 @@
+[
+  {
+    "slug": "aluminum",
+    "name": "Aluminum",
+    "category": "non-ferrous metal",
+    "est_price_usd_per_lb": 0.62,
+    "price_range_low": 0.40,
+    "price_range_high": 0.75,
+    "found_in": [
+      "laptop casings",
+      "phone frames",
+      "older desktop cases",
+      "heatsinks",
+      "soda cans (mixed loads)"
+    ],
+    "description": "Lightweight, recyclable non-ferrous metal. One of the cleanest electronics scraps to value, since it shows up in big, easy-to-separate chunks.",
+    "recovery_notes": "Cleanest pricing when fully separated from steel and plastic. Mixed 'electronics aluminum' pays less than pure 'extruded' or 'sheet' grades.",
+    "price_source": "ScrapMonster California regional average (May 2026); confirmed against priceofscrapmetals.com San Diego listing."
+  },
+  {
+    "slug": "copper",
+    "name": "Copper",
+    "category": "non-ferrous metal",
+    "est_price_usd_per_lb": 2.50,
+    "price_range_low": 2.00,
+    "price_range_high": 3.16,
+    "found_in": [
+      "power cords",
+      "internal wiring harnesses",
+      "motor windings",
+      "circuit board traces",
+      "transformers"
+    ],
+    "description": "The most valuable common metal in everyday e-waste. Stripped insulated copper wire pays significantly more than wire with the plastic still on.",
+    "recovery_notes": "'#1 bare bright' (clean, stripped) is the top-paying grade. 'Insulated' or 'tinned' wire pays 30-50% less.",
+    "price_source": "ScrapMonster California regional average (May 2026); cross-checked with iScrap App San Diego listings."
+  },
+  {
+    "slug": "steel",
+    "name": "Steel",
+    "category": "ferrous metal",
+    "est_price_usd_per_lb": 0.18,
+    "price_range_low": 0.08,
+    "price_range_high": 0.30,
+    "found_in": [
+      "tower computer cases",
+      "hard drive bodies",
+      "appliance chassis",
+      "structural brackets"
+    ],
+    "description": "The cheapest common scrap by weight, but it's the largest fraction of most e-waste loads. Don't bother delivering it on its own - bring it bundled with the higher-value metals.",
+    "recovery_notes": "Most San Diego yards take loose steel by the pound; some require a minimum load (50+ lbs).",
+    "price_source": "ScrapMonster U.S. average (June 2026); local yard listings via SA Recycling San Diego."
+  },
+  {
+    "slug": "brass",
+    "name": "Brass",
+    "category": "non-ferrous metal",
+    "est_price_usd_per_lb": 2.20,
+    "price_range_low": 1.74,
+    "price_range_high": 2.80,
+    "found_in": [
+      "connectors and contacts",
+      "decorative trim",
+      "older hardware fittings"
+    ],
+    "description": "Less common in modern electronics than aluminum or copper, but valuable when you find it - especially in older equipment with brass connector housings.",
+    "recovery_notes": "Pays best when sorted from copper (which it can look similar to). Mixed 'red metal' loads get discounted.",
+    "price_source": "ScrapMonster California regional average (May 2026)."
+  },
+  {
+    "slug": "circuit_boards",
+    "name": "Circuit Boards (mixed)",
+    "category": "e-scrap",
+    "est_price_usd_per_lb": 2.00,
+    "price_range_low": 1.50,
+    "price_range_high": 3.00,
+    "found_in": [
+      "desktop motherboards",
+      "server boards",
+      "video and sound cards",
+      "router and switch boards"
+    ],
+    "description": "The 'mixed motherboard' grade. Server boards pay the most ($3-8/lb), desktop motherboards in the $1.50-3 range, low-grade boards (most consumer electronics) under $1.",
+    "recovery_notes": "Don't strip the gold yourself - it's both dangerous (acid baths) and the refiner pays more for intact boards because they can recover platinum and palladium too.",
+    "price_source": "Boardsort.com and CJD Recycling 2024-2026 published rates; consistent with Specialty Metals' 2026 e-scrap guidance."
+  },
+  {
+    "slug": "gold_from_boards",
+    "name": "Gold (from circuit boards)",
+    "category": "precious metal",
+    "est_price_usd_per_lb": null,
+    "price_range_low": null,
+    "price_range_high": null,
+    "found_in": [
+      "circuit board edge connectors",
+      "CPU pins",
+      "high-grade telecom boards"
+    ],
+    "description": "High-grade printed circuit board scrap contains 100-300 grams of gold per metric ton (2,200 lbs). That's why circuit boards as a whole are priced at $1.50-3/lb even though they look like green plastic. You can't realistically separate this yourself - it's the refiner's job.",
+    "recovery_notes": "At gold prices around $2,000/oz, one ton of decent board scrap yields $7,000-$20,000 of recoverable gold alone, before counting silver, palladium, and copper. This is why circuit board recycling is profitable enough to exist.",
+    "price_source": "Per-pound estimates not provided here - this metal is informational. Yields per Specialty Metals e-scrap research (2024-2026) and Umicore precious metals refining figures."
+  },
+  {
+    "slug": "lithium_ion_batteries",
+    "name": "Lithium-Ion Batteries",
+    "category": "battery",
+    "est_price_usd_per_lb": 1.30,
+    "price_range_low": 0.15,
+    "price_range_high": 2.50,
+    "found_in": [
+      "laptop battery packs",
+      "phone batteries",
+      "power tool packs",
+      "e-bike and scooter batteries"
+    ],
+    "description": "Worth real money because of the cobalt, nickel, and lithium content - but only when delivered to a battery-specific recycler, not a regular scrap yard. Most general recyclers won't take them at all (fire risk).",
+    "recovery_notes": "NMC (nickel-manganese-cobalt) chemistry pays the most. LFP (lithium iron phosphate) chemistry pays significantly less. Never ship damaged or swollen cells - they're a fire hazard.",
+    "price_source": "ScrapMonster electronics scrap index (Jan-Mar 2026 range $1.50-$2.50/lb); BatteryRecyclersOfAmerica 2026 price guidance."
+  },
+  {
+    "slug": "lead_acid_batteries",
+    "name": "Lead-Acid Batteries",
+    "category": "battery",
+    "est_price_usd_per_lb": 0.22,
+    "price_range_low": 0.15,
+    "price_range_high": 0.35,
+    "found_in": [
+      "UPS battery backups",
+      "older alarm systems",
+      "automotive batteries (separately)"
+    ],
+    "description": "Less common in modern consumer electronics, but UPS units and backup systems still use them. Almost always recyclable for cash because of the lead content.",
+    "recovery_notes": "Most auto parts stores (AutoZone, Advance, O'Reilly) take them for free or pay a small core charge. Dedicated battery recyclers pay slightly more by weight.",
+    "price_source": "ScrapMonster batteries index (2026)."
+  },
+  {
+    "slug": "hard_drives",
+    "name": "Hard Drives (whole)",
+    "category": "e-scrap",
+    "est_price_usd_per_lb": 0.18,
+    "price_range_low": 0.08,
+    "price_range_high": 0.45,
+    "found_in": [
+      "desktop and server tower bays",
+      "external enclosures",
+      "old laptops (2.5\" drives)"
+    ],
+    "description": "Pays a little because of the aluminum body and small amount of circuit-board scrap, but you lose money trying to scrap them individually - bundle with other e-waste.",
+    "recovery_notes": "Important: wipe or physically destroy the platters before scrapping. Most reputable recyclers offer certified data destruction (Simba and SDEwaste both do this in San Diego).",
+    "price_source": "iScrap App and ScrapMonster hard drive scrap index, April 2026."
+  },
+  {
+    "slug": "crt_glass",
+    "name": "CRT Glass (old TVs, monitors)",
+    "category": "e-scrap (negative value)",
+    "est_price_usd_per_lb": -0.65,
+    "price_range_low": -0.85,
+    "price_range_high": -0.50,
+    "found_in": [
+      "tube TVs",
+      "tube computer monitors (pre-2008)",
+      "arcade cabinets"
+    ],
+    "description": "This is the honest one - CRT glass actually costs money to recycle. The leaded glass inside old tube TVs and monitors is hazardous waste, and very few facilities will still process it. You pay the recycler, not the other way around.",
+    "recovery_notes": "In California, CalRecycle's Covered E-Waste Recycling Program pays subsidized rates to recyclers (~$0.85/lb) for CRT collection, which is why some San Diego recyclers (Urban Corps, Dream) still take them for free under that program.",
+    "price_source": "CalRecycle Program Rates Schedule (effective Jan 2026); MRC Electronics Recycling published fee schedule; California Resource Recycling industry coverage."
+  }
+]

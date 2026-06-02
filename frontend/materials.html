@@ -5,6 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materials - Scraptronic</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* materials page specific styles */
+
+        .calculator {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 28px;
+        }
+
+        .calculator h2 {
+            margin: 0 0 6px 0;
+            font-size: 20px;
+        }
+
+        .calculator .sub {
+            margin: 0 0 16px 0;
+            color: #6b7a6e;
+            font-size: 14px;
+        }
+
+        .calculator .row {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        @media (max-width: 600px) {
+            .calculator .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calculator label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5a4d;
+            margin-bottom: 4px;
+        }
+
+        .calculator select,
+        .calculator input {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 15px;
+            border: 1px solid #c3ccc2;
+            border-radius: 5px;
+            background: #ffffff;
+            font-family: inherit;
+        }
+
+        .calculator button {
+            background: #2d7a4f;
+            color: #ffffff;
+            border: none;
+            padding: 10px 22px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .calculator button:hover {
+            background: #1f5a39;
+        }
+
+        .calc-result {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 6px;
+            background: #f6f7f3;
+            border: 1px solid #e1e6db;
+            font-size: 15px;
+            display: none;
+        }
+
+        .calc-result.show {
+            display: block;
+        }
+
+        .calc-result .big {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1f5a39;
+            margin: 4px 0;
+        }
+
+        .calc-result .big.negative {
+            color: #a23a25;
+        }
+
+        .calc-result .range {
+            color: #6b7a6e;
+            font-size: 13px;
+        }
+
+        .calc-result .disclaimer {
+            margin-top: 8px;
+            color: #6b7a6e;
+            font-size: 12px;
+        }
+
+
+        /* material card grid */
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 16px;
+        }
+
+        .material-card {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .material-card h3 {
+            margin: 0 0 4px 0;
+            font-size: 18px;
+        }
+
+        .material-card .category {
+            font-size: 12px;
+            color: #6b7a6e;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+        }
+
+        .material-card .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1f5a39;
+            margin: 4px 0;
+        }
+
+        .material-card .price.negative {
+            color: #a23a25;
+        }
+
+        .material-card .price.na {
+            color: #6b7a6e;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .material-card .range {
+            font-size: 12px;
+            color: #6b7a6e;
+            margin-bottom: 12px;
+        }
+
+        .material-card .description {
+            font-size: 14px;
+            margin: 6px 0 10px 0;
+            color: #2c382e;
+        }
+
+        .material-card .found-in {
+            font-size: 13px;
+            color: #4a5a4d;
+            margin-top: auto;
+        }
+
+        .material-card .found-in strong {
+            color: #1a2e1f;
+        }
+
+        .material-card .source {
+            font-size: 11px;
+            color: #6b7a6e;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eef1ec;
+            font-style: italic;
+        }
+
+
+        .loading {
+            padding: 24px;
+            text-align: center;
+            color: #6b7a6e;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,29 +214,50 @@
 
 <header class="page-header">
     <h1>What's It Worth?</h1>
-    <p>Estimated scrap value of common e-waste materials, by the pound.</p>
+    <p>Estimated regional scrap value for common materials recovered from e-waste.</p>
 </header>
 
 <main class="container">
 
-    <div class="placeholder">
-        <p><strong>Coming in the next build.</strong></p>
-        <p>
-            A grid of materials commonly recovered from old electronics — aluminum,
-            copper, steel, brass, circuit boards, gold from boards, lithium-ion batteries,
-            hard drives, and CRT glass (which actually <em>costs</em> money to recycle —
-            that one's important to show). Prices sourced from ScrapMonster regional
-            averages plus a small calculator: enter pounds and material, get an estimate.
-        </p>
+    <!-- the calculator widget -->
+    <div class="calculator">
+        <h2>Quick Estimate</h2>
+        <p class="sub">Pick a material, type in how many pounds you've got, and I'll give you a ballpark.</p>
+        <div class="row">
+            <div>
+                <label for="calc-material">Material</label>
+                <select id="calc-material">
+                    <option value="">Loading...</option>
+                </select>
+            </div>
+            <div>
+                <label for="calc-lbs">Pounds</label>
+                <input type="number" id="calc-lbs" step="0.1" min="0" value="5">
+            </div>
+            <div>
+                <label>&nbsp;</label>
+                <button id="calc-button">Estimate Value</button>
+            </div>
+        </div>
+        <div class="calc-result" id="calc-result"></div>
+    </div>
+
+    <!-- grid of material cards -->
+    <div class="materials-grid" id="materials-grid">
+        <div class="loading">Loading materials…</div>
     </div>
 
 </main>
 
 <footer class="footer">
-    Estimates based on regional scrap prices · actual payouts vary by recycler and load.
+    Estimates based on regional scrap-yard averages and CalRecycle published rates ·
+    actual payouts vary by recycler, condition, and load size.
     <br>
     <a href="https://github.com/Sriram-Gutta/scraptronic">Source on GitHub</a>
 </footer>
+
+<script src="js/config.js"></script>
+<script src="js/materials.js"></script>
 
 </body>
 </html>
