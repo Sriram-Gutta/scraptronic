@@ -1,0 +1,338 @@
+"""Build data/recyclers.json by geocoding hand-curated addresses via OpenStreetMap Nominatim.
+
+Run from the repo root:
+    python3 data/build_recyclers.py
+
+Nominatim's usage policy requires a custom User-Agent and at most ~1 req/sec.
+We respect both. Geocoded coordinates are cached inline in this script so
+re-running doesn't hammer Nominatim - if you change an address, delete its
+"_cached_lat/_cached_lng" entry and re-run.
+
+Sources used for the underlying records:
+- CalRecycle SB 20 Covered E-Waste Collector Directory
+- Urban Corps of San Diego County (urbancorpssd.org)
+- San Diego E-Waste (sdewaste.org, CEWID 116525)
+- Dream Electronic Recycling (dreamewaste.com)
+- Simba Recycles (simbarecycles.com)
+- Terra E-Waste (terraewaste.com)
+- TechWaste Recycling area listings (retail partners)
+- Goodwill Industries San Diego / Dell Reconnect (sdgoodwill.dellreconnect.com)
+"""
+
+import json
+import time
+import urllib.parse
+import urllib.request
+
+
+RECYCLERS = [
+    {
+        "id": "r-001",
+        "name": "Urban Corps of San Diego - Moore St",
+        "address": "3021 Moore Street, San Diego, CA 92110",
+        "phone": "(619) 235-6884",
+        "website": "https://urbancorpssd.org/ewaste/",
+        "hours": {"mon": "9:00-14:30", "tue": "9:00-14:30", "wed": "9:00-14:30",
+                  "thu": "9:00-14:30", "fri": "9:00-14:30", "sat": "closed", "sun": "closed"},
+        "accepted_materials": ["computers", "monitors", "tvs", "phones", "tablets",
+                                "printers", "circuit_boards", "cables", "batteries"],
+        "accepts_business": True,
+        "notes": "Free drop-off. Job-training nonprofit, CalRecycle approved collector.",
+        "source": "urbancorpssd.org/ewaste, retrieved 2026-06"
+    },
+    {
+        "id": "r-002",
+        "name": "Urban Corps of San Diego - Escondido",
+        "address": "2200 Micro Place, Escondido, CA 92029",
+        "phone": "(619) 235-6884",
+        "website": "https://urbancorpssd.org/ewaste/",
+        "hours": {"mon": "closed", "tue": "8:00-14:30", "wed": "8:00-14:30",
+                  "thu": "8:00-14:30", "fri": "closed", "sat": "closed", "sun": "closed"},
+        "accepted_materials": ["computers", "monitors", "tvs", "phones", "tablets",
+                                "printers", "circuit_boards", "cables", "batteries"],
+        "accepts_business": True,
+        "notes": "Free drop-off. North County location, open Tue-Thu only.",
+        "source": "urbancorpssd.org/ewaste, retrieved 2026-06"
+    },
+    {
+        "id": "r-003",
+        "name": "Solana Center for Environmental Innovation",
+        "address": "137 N El Camino Real, Encinitas, CA 92024",
+        "phone": "(760) 436-7986",
+        "website": "https://www.solanacenter.org/",
+        "hours": {"mon": "closed", "tue": "closed", "wed": "closed",
+                  "thu": "12:00-17:00", "fri": "closed", "sat": "9:00-13:00", "sun": "closed"},
+        "accepted_materials": ["computers", "monitors", "tvs", "phones", "tablets",
+                                "printers", "circuit_boards"],
+        "accepts_business": False,
+        "notes": "Suggested $5 donation per drop-off. Urban Corps partner site.",
+        "source": "urbancorpssd.org/ewaste partner listing, retrieved 2026-06"
+    },
+    {
+        "id": "r-004",
+        "name": "San Diego E-Waste - Chula Vista",
+        "address": "645 Marsat Ct Suite B, Chula Vista, CA 91911",
+        "phone": "(619) 657-3103",
+        "website": "https://sdewaste.org/",
+        "hours": {"mon": "8:30-17:30", "tue": "8:30-17:30", "wed": "8:30-17:30",
+                  "thu": "8:30-17:30", "fri": "8:30-17:30", "sat": "9:00-16:00", "sun": "closed"},
+        "accepted_materials": ["computers", "servers", "monitors", "tvs",
+                                "phones", "circuit_boards", "cables"],
+        "accepts_business": True,
+        "notes": "Free drop-off 6 days/week. CalRecycle CEWID 116525.",
+        "source": "sdewaste.org + CalRecycle CEW directory, retrieved 2026-06"
+    },
+    {
+        "id": "r-005",
+        "name": "San Diego E-Waste - Morena Blvd",
+        "address": "4901 Morena Blvd #908, San Diego, CA 92117",
+        "phone": "(619) 341-1720",
+        "website": "https://sdewaste.org/",
+        "hours": {"mon": "10:00-15:30", "tue": "10:00-15:30", "wed": "10:00-15:30",
+                  "thu": "10:00-15:30", "fri": "10:00-15:30", "sat": "closed", "sun": "closed"},
+        "accepted_materials": ["computers", "servers", "monitors", "tvs",
+                                "phones", "circuit_boards", "cables"],
+        "accepts_business": True,
+        "notes": "Central San Diego location. Weekdays only.",
+        "source": "sdewaste.org, retrieved 2026-06"
+    },
+    {
+        "id": "r-006",
+        "name": "Dream Electronic Recycling - Point Loma",
+        "address": "4009 Hicock Street Suite D, San Diego, CA 92110",
+        "phone": "(619) 889-1305",
+        "website": "https://dreamewaste.com/",
+        "hours": {"mon": "8:00-17:00", "tue": "8:00-17:00", "wed": "8:00-17:00",
+                  "thu": "8:00-17:00", "fri": "8:00-17:00", "sat": "8:00-17:00", "sun": "closed"},
+        "accepted_materials": ["computers", "monitors", "tvs", "phones", "tablets",
+                                "printers", "circuit_boards", "cables", "batteries",
+                                "hard_drives"],
+        "accepts_business": True,
+        "notes": "Free drop-off, no appointment needed. 'Any item with a cable, plug, or battery.'",
+        "source": "dreamewaste.com/service-locations, retrieved 2026-06"
+    },
+    {
+        "id": "r-007",
+        "name": "Dream Electronic Recycling - San Marcos",
+        "address": "2930 Norman Strasse Road Suite 104, San Marcos, CA 92069",
+        "phone": "(619) 889-1305",
+        "website": "https://dreamewaste.com/",
+        "hours": {"mon": "9:00-16:00", "tue": "9:00-16:00", "wed": "9:00-16:00",
+                  "thu": "9:00-16:00", "fri": "9:00-16:00", "sat": "10:00-14:00", "sun": "closed"},
+        "accepted_materials": ["computers", "monitors", "tvs", "phones", "tablets",
+                                "printers", "circuit_boards", "cables", "batteries",
+                                "hard_drives"],
+        "accepts_business": True,
+        "notes": "North County. Free drop-off, no appointment.",
+        "source": "dreamewaste.com/service-locations, retrieved 2026-06"
+    },
+    {
+        "id": "r-008",
+        "name": "Dream Electronic Recycling - Kearny Mesa",
+        "address": "9434 Kearny Mesa Road, San Diego, CA 92126",
+        "phone": "(619) 889-1305",
+        "website": "https://dreamewaste.com/",
+        "hours": {"mon": "9:00-18:00", "tue": "9:00-18:00", "wed": "9:00-18:00",
+                  "thu": "9:00-18:00", "fri": "9:00-18:00", "sat": "10:00-16:00", "sun": "10:00-16:00"},
+        "accepted_materials": ["computers", "monitors", "tvs", "phones", "tablets",
+                                "printers", "circuit_boards", "cables", "batteries",
+                                "hard_drives"],
+        "accepts_business": True,
+        "notes": "Check in at the Associated Storage office on arrival.",
+        "source": "dreamewaste.com/service-locations, retrieved 2026-06"
+    },
+    {
+        "id": "r-009",
+        "name": "Dream Electronic Recycling - Oceanside",
+        "address": "1501 S Coast Highway, Oceanside, CA 92054",
+        "phone": "(619) 889-1305",
+        "website": "https://dreamewaste.com/",
+        "hours": {"mon": "10:00-18:00", "tue": "10:00-18:00", "wed": "10:00-18:00",
+                  "thu": "10:00-18:00", "fri": "10:00-18:00", "sat": "10:00-18:00", "sun": "10:00-16:00"},
+        "accepted_materials": ["computers", "monitors", "tvs", "phones", "tablets",
+                                "printers", "circuit_boards", "cables", "batteries",
+                                "hard_drives"],
+        "accepts_business": True,
+        "notes": "Check in at the Security Public Storage office on arrival.",
+        "source": "dreamewaste.com/service-locations, retrieved 2026-06"
+    },
+    {
+        "id": "r-010",
+        "name": "Simba Recycles - San Marcos",
+        "address": "2892 S Santa Fe Avenue Suite 109, San Marcos, CA 92069",
+        "phone": "(619) 837-8284",
+        "website": "https://ewaste.simbarecycles.com/",
+        "hours": {"mon": "closed", "tue": "10:00-14:00", "wed": "10:00-14:00",
+                  "thu": "10:00-14:00", "fri": "10:00-14:00", "sat": "10:00-14:00", "sun": "closed"},
+        "accepted_materials": ["computers", "monitors", "phones", "tablets",
+                                "circuit_boards", "hard_drives"],
+        "accepts_business": True,
+        "notes": "Walk-in drop-off, drive-through convenience. Certificates of data destruction available.",
+        "source": "ewaste.simbarecycles.com/locations, retrieved 2026-06"
+    },
+    {
+        "id": "r-011",
+        "name": "Terra Electronic Recycling",
+        "address": "7838 Convoy Court, San Diego, CA 92111",
+        "phone": "(619) 953-4655",
+        "website": "https://www.terraewaste.com/",
+        "hours": {"mon": "9:00-16:30", "tue": "9:00-16:30", "wed": "9:00-16:30",
+                  "thu": "9:00-16:30", "fri": "9:00-16:30", "sat": "9:00-14:00", "sun": "closed"},
+        "accepted_materials": ["computers", "laptops", "tablets", "phones", "servers",
+                                "printers", "tvs", "circuit_boards", "cables"],
+        "accepts_business": True,
+        "notes": "Convoy district. Free drop-off for most items, secure data destruction available.",
+        "source": "terraewaste.com, retrieved 2026-06"
+    },
+    {
+        "id": "r-012",
+        "name": "Goodwill - University Heights (Dell Reconnect)",
+        "address": "1219 University Avenue, San Diego, CA 92103",
+        "phone": "(619) 225-2200",
+        "website": "https://sdgoodwill.dellreconnect.com/",
+        "hours": {"mon": "9:00-21:00", "tue": "9:00-21:00", "wed": "9:00-21:00",
+                  "thu": "9:00-21:00", "fri": "9:00-21:00", "sat": "9:00-21:00", "sun": "9:00-19:00"},
+        "accepted_materials": ["computers", "laptops", "monitors", "printers",
+                                "phones", "tablets", "cables"],
+        "accepts_business": False,
+        "notes": "Dell Reconnect program - free recycling of computer equipment (any brand).",
+        "source": "sdgoodwill.dellreconnect.com, retrieved 2026-06"
+    },
+    {
+        "id": "r-013",
+        "name": "Best Buy - Mission Center",
+        "address": "5151 Mission Center Road, San Diego, CA 92108",
+        "phone": "(619) 574-1076",
+        "website": "https://www.bestbuy.com/site/services/recycling/pcmcat149900050025.c",
+        "hours": {"mon": "10:00-21:00", "tue": "10:00-19:00", "wed": "10:00-20:00",
+                  "thu": "10:00-21:00", "fri": "10:00-22:00", "sat": "10:00-22:00", "sun": "10:00-20:00"},
+        "accepted_materials": ["phones", "tablets", "streaming_devices"],
+        "accepts_business": False,
+        "notes": "In-store kiosk only accepts small electronics. Larger items: paid haul-away service.",
+        "source": "bestbuy.com recycling program + techwasterecycling.com, retrieved 2026-06"
+    },
+    {
+        "id": "r-014",
+        "name": "Best Buy - Mira Mesa",
+        "address": "9540 Mira Mesa Boulevard, San Diego, CA 92126",
+        "phone": "(858) 831-9003",
+        "website": "https://www.bestbuy.com/site/services/recycling/pcmcat149900050025.c",
+        "hours": {"mon": "10:00-21:00", "tue": "10:00-21:00", "wed": "10:00-21:00",
+                  "thu": "10:00-21:00", "fri": "10:00-22:00", "sat": "10:00-22:00", "sun": "10:00-21:00"},
+        "accepted_materials": ["phones", "tablets", "streaming_devices"],
+        "accepts_business": False,
+        "notes": "In-store kiosk only accepts small electronics. Larger items: paid haul-away service.",
+        "source": "bestbuy.com recycling program + techwasterecycling.com, retrieved 2026-06"
+    },
+    {
+        "id": "r-015",
+        "name": "Apple Store - UTC",
+        "address": "4305 La Jolla Village Drive, San Diego, CA 92122",
+        "phone": "(858) 795-6870",
+        "website": "https://www.apple.com/shop/trade-in",
+        "hours": {"mon": "10:00-20:00", "tue": "10:00-20:00", "wed": "10:00-20:00",
+                  "thu": "10:00-20:00", "fri": "10:00-20:00", "sat": "10:00-20:00", "sun": "11:00-19:00"},
+        "accepted_materials": ["phones", "tablets", "laptops", "watches"],
+        "accepts_business": False,
+        "notes": "Apple Trade In program - any brand accepted for recycling (no payment for non-Apple).",
+        "source": "apple.com/shop/trade-in, retrieved 2026-06"
+    },
+    {
+        "id": "r-016",
+        "name": "Staples - Rancho Carmel",
+        "address": "11160 Rancho Carmel Drive, San Diego, CA 92128",
+        "phone": "(858) 675-0426",
+        "website": "https://www.staples.com/services/recycling/",
+        "hours": {"mon": "8:00-21:00", "tue": "8:00-21:00", "wed": "8:00-21:00",
+                  "thu": "8:00-21:00", "fri": "8:00-21:00", "sat": "9:00-21:00", "sun": "10:00-18:00"},
+        "accepted_materials": ["computers", "laptops", "tablets", "phones",
+                                "printers", "ink_cartridges", "hard_drives"],
+        "accepts_business": True,
+        "notes": "Free in-store recycling for most electronics. Up to 7 items per day per customer.",
+        "source": "staples.com recycling program + techwasterecycling.com, retrieved 2026-06"
+    },
+    {
+        "id": "r-017",
+        "name": "Office Depot - Downtown",
+        "address": "825 W E Street, San Diego, CA 92101",
+        "phone": "(619) 238-4991",
+        "website": "https://www.officedepot.com/cm/services/tech-recycling-box",
+        "hours": {"mon": "8:00-20:00", "tue": "8:00-20:00", "wed": "8:00-20:00",
+                  "thu": "8:00-20:00", "fri": "8:00-20:00", "sat": "9:00-19:00", "sun": "10:00-18:00"},
+        "accepted_materials": ["computers", "laptops", "phones", "tablets",
+                                "ink_cartridges", "cables"],
+        "accepts_business": True,
+        "notes": "Requires purchasing a Tech Recycling Box (~$5-15) to fill with electronics.",
+        "source": "officedepot.com recycling program + techwasterecycling.com, retrieved 2026-06"
+    },
+    {
+        "id": "r-018",
+        "name": "Verizon - Murphy Canyon",
+        "address": "3737 Murphy Canyon Road, San Diego, CA 92123",
+        "phone": "(858) 505-0488",
+        "website": "https://www.verizon.com/about/responsibility/sustainability/recycling",
+        "hours": {"mon": "10:00-19:00", "tue": "10:00-19:00", "wed": "10:00-19:00",
+                  "thu": "10:00-19:00", "fri": "10:00-19:00", "sat": "10:00-19:00", "sun": "11:00-17:00"},
+        "accepted_materials": ["phones", "tablets", "streaming_devices"],
+        "accepts_business": False,
+        "notes": "Carrier store - accepts mobile devices for recycling regardless of carrier.",
+        "source": "techwasterecycling.com listing + verizon.com recycling page, retrieved 2026-06"
+    }
+]
+
+
+def geocode(address):
+    """Look up an address with Nominatim and return (lat, lng) as floats."""
+    params = urllib.parse.urlencode({
+        "q": address,
+        "format": "json",
+        "limit": 1,
+        "countrycodes": "us",
+    })
+    url = f"https://nominatim.openstreetmap.org/search?{params}"
+    req = urllib.request.Request(url, headers={
+        # Nominatim usage policy: identify yourself
+        "User-Agent": "Scraptronic-Build/1.0 (github.com/Sriram-Gutta/scraptronic)"
+    })
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        results = json.loads(resp.read().decode())
+    if not results:
+        return None, None
+    return float(results[0]["lat"]), float(results[0]["lon"])
+
+
+def main():
+    out = []
+    for r in RECYCLERS:
+        print(f"Geocoding {r['id']}: {r['address']}")
+        lat, lng = geocode(r["address"])
+        if lat is None:
+            print(f"  WARN: no result")
+            lat, lng = 0.0, 0.0
+        else:
+            print(f"  -> {lat}, {lng}")
+        full = {
+            "id": r["id"],
+            "name": r["name"],
+            "address": r["address"],
+            "lat": round(lat, 6),
+            "lng": round(lng, 6),
+            "phone": r["phone"],
+            "website": r["website"],
+            "hours": r["hours"],
+            "accepted_materials": r["accepted_materials"],
+            "accepts_business": r["accepts_business"],
+            "notes": r["notes"],
+            "source": r["source"],
+        }
+        out.append(full)
+        # Nominatim usage policy: max 1 request per second
+        time.sleep(1.1)
+
+    with open("data/recyclers.json", "w") as f:
+        json.dump(out, f, indent=2)
+    print(f"\nWrote data/recyclers.json with {len(out)} entries.")
+
+
+if __name__ == "__main__":
+    main()

@@ -5,6 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recycler Map - Scraptronic</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <style>
+        /* map page specific styles */
+
+        .map-layout {
+            display: grid;
+            grid-template-columns: minmax(280px, 360px) 1fr;
+            gap: 0;
+            height: calc(100vh - 200px);
+            min-height: 500px;
+            margin-top: 16px;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        @media (max-width: 700px) {
+            .map-layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: 360px auto;
+                height: auto;
+            }
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            min-height: 360px;
+        }
+
+        .map-layout .sidebar {
+            border-right: 1px solid #e1e6db;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        @media (max-width: 700px) {
+            .map-layout .sidebar {
+                border-right: none;
+                border-top: 1px solid #e1e6db;
+                max-height: 400px;
+            }
+        }
+
+        .recycler-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eef1ec;
+            cursor: pointer;
+        }
+
+        .recycler-item:hover {
+            background: #f6f7f3;
+        }
+
+        .recycler-item.selected {
+            background: #e6efe8;
+        }
+
+        .recycler-item h4 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            color: #1a2e1f;
+        }
+
+        .recycler-item .addr {
+            font-size: 13px;
+            color: #6b7a6e;
+        }
+
+        .loading {
+            padding: 24px;
+            text-align: center;
+            color: #6b7a6e;
+        }
+
+        .popup-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin: 0 0 6px 0;
+        }
+
+        .popup-row {
+            margin: 4px 0;
+            font-size: 13px;
+        }
+
+        .popup-row strong {
+            color: #4a5a4d;
+        }
+
+        .popup-mats {
+            margin-top: 6px;
+        }
+
+        .popup-mats .tag {
+            display: inline-block;
+            background: #e6efe8;
+            color: #1f5a39;
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin: 2px 3px 2px 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,26 +129,32 @@
 
 <header class="page-header">
     <h1>Recycler Map</h1>
-    <p>Find an e-waste drop-off near you in San Diego.</p>
+    <p>E-waste drop-off locations across San Diego County. Click a marker for details.</p>
 </header>
 
 <main class="container">
 
-    <div class="placeholder">
-        <p><strong>Coming in the next build.</strong></p>
-        <p>
-            A Leaflet map centered on San Diego with around 18 hand-curated recycling
-            centers, drawn from CalRecycle, City of San Diego ESD, and EPA SMM listings.
-            Click a marker to see what each place accepts, their hours, and contact info.
-        </p>
+    <div class="map-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="loading">Loading recyclers…</div>
+        </aside>
+        <div id="map"></div>
     </div>
 
 </main>
 
 <footer class="footer">
-    Data last updated: TBD ·
+    Data last updated June 2026 · Sourced from CalRecycle, Urban Corps SD, City of San Diego ESD,
+    Dell Reconnect/Goodwill, and individual recycler websites. Call ahead to confirm hours.
+    <br>
     <a href="https://github.com/Sriram-Gutta/scraptronic">Source on GitHub</a>
 </footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script src="js/config.js"></script>
+<script src="js/map.js"></script>
 
 </body>
 </html>

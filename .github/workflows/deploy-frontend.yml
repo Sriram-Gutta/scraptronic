@@ -1,6 +1,5 @@
-# Publish the /frontend folder to GitHub Pages whenever it changes.
-# GitHub Pages only supports / or /docs as a source path, so we use a
-# workflow to upload the frontend folder as a Pages artifact instead.
+# Publish the /frontend folder (plus the /data folder for fallback fetches)
+# to GitHub Pages whenever either changes.
 
 name: Deploy frontend to GitHub Pages
 
@@ -9,6 +8,7 @@ on:
     branches: [main]
     paths:
       - 'frontend/**'
+      - 'data/**'
       - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
 
@@ -32,13 +32,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Stage frontend + data
+        run: |
+          mkdir -p _site
+          cp -r frontend/* _site/
+          if [ -d data ]; then
+            mkdir -p _site/data
+            # only publish the actual JSON files, not the build script
+            find data -maxdepth 1 -name '*.json' -exec cp {} _site/data/ \;
+          fi
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload frontend folder as Pages artifact
+      - name: Upload _site as Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./frontend
+          path: ./_site
 
       - name: Deploy to GitHub Pages
         id: deployment
