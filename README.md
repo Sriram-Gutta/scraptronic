@@ -3,7 +3,7 @@
 > A platform that helps you find local e-waste recyclers, see what your old electronics are worth in raw materials, and track the impact of recycling them. San Diego focused. Built around public data.
 
 🌐 **Live demo (frontend):** https://sriram-gutta.github.io/scraptronic/
-🔌 **API health check:** _coming soon — will be hosted on PythonAnywhere_
+🔌 **Backend API:** https://sriramgutta.pythonanywhere.com/api/health
 
 ---
 
