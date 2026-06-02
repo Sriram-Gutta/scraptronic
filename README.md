@@ -1,91 +1,151 @@
-# Scraptronic
+# ♻ Scraptronic
 
-> A platform that helps you find local e-waste recyclers, see what your old electronics are worth in raw materials, and track the impact of recycling them. San Diego focused. Built around public data.
+> Find local e-waste recyclers, see what your old electronics are worth in raw materials, and track the impact of recycling them. San Diego focused. Built on public data.
 
-🌐 **Live demo (frontend):** https://sriram-gutta.github.io/scraptronic/
+🌐 **Live app:** **https://sriram-gutta.github.io/scraptronic/**
 🔌 **Backend API:** https://sriramgutta.pythonanywhere.com/api/health
+🧰 **Repo:** https://github.com/Sriram-Gutta/scraptronic
+
+![Scraptronic](frontend/img/og-image.png)
 
 ---
 
-## What's here right now (v0 — Session 1 skeleton)
+## What it does
 
-This is the first deployable cut. It's intentionally bare so the structure is visible:
+| Page | What you get |
+|---|---|
+| **Map** | A Leaflet map of 18 hand-curated San Diego e-waste drop-offs. Click a marker for hours, phone, what they accept, and the public registry the entry came from. |
+| **Materials** | A catalog of 10 common e-waste materials with regional scrap prices (aluminum, copper, brass, circuit boards, lithium batteries, hard drives, CRT glass, and more). Calculator widget turns *"5 lbs of copper"* into a $ estimate. |
+| **My Recycling** | A personal tracker backed by browser `localStorage`. Log entries, see running totals, progress through tiers, and watch estimated CO₂ savings add up using EPA WARM factors. No signup. |
+| **Learn** | Five short articles (300–500 words each) on the e-waste problem, how recycling actually works, the gold in your old laptop, and how to prep devices for drop-off. Every claim cites a source. |
 
-- **6 frontend pages** (Home, Map, Materials, My Recycling, Learn, About) with the shared nav + footer in place. Map/Materials/Tracker/Learn currently show "Coming in the next build" placeholders that describe what each page will become.
-- **Flask backend** with a single `/api/health` endpoint, ready to deploy on PythonAnywhere's free tier.
-- **CORS configured** for `https://sriram-gutta.github.io` plus `localhost` so dev works without surprises.
-- **Repo layout** for the data files (`recyclers.json`, `materials.json`, `articles.json`) that get filled in over the next few sessions.
+## Why I built it
 
-## Planned full feature set
-
-- **Recycler map** — ~18 hand-curated e-waste drop-offs in San Diego, sourced from CalRecycle, City of San Diego ESD, and EPA SMM listings. Leaflet + OpenStreetMap.
-- **Materials & value calculator** — common e-waste materials (aluminum, copper, circuit boards, etc.) with estimated regional scrap prices from ScrapMonster. Punch in pounds, get a $ estimate.
-- **My Recycling tracker** — log entries, see running totals, tier progress, and estimated CO₂ saved (using EPA WARM factors). All in `localStorage` — no signup.
-- **Learn** — short articles on the e-waste problem, prep tips, what's actually inside your old laptop. Every claim cited.
+I'm a computer engineering student from San Diego with a drawer of dead phones, old laptop chargers, and a defunct external hard drive. Figuring out how to actually recycle them properly took me an embarrassing amount of digging — the info is scattered across CalRecycle, the City of San Diego HHW page, individual recycler websites, Earth911, and a handful of nonprofits. Scraptronic is my attempt to bundle that scattered information into one place, focused on San Diego to start, with honest sourcing on every entry.
 
 ## Stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Frontend | Vanilla HTML + CSS + JS + [Leaflet](https://leafletjs.com/) | No build step, easy to read, easy to host. |
-| Backend | Python [Flask](https://flask.palletsprojects.com/) | Familiar from my Data Mine / Pandas work. Simple enough to fit in one file. |
-| Hosting | GitHub Pages (frontend) + PythonAnywhere (backend) | Both free tiers, both always-on (no cold starts). |
-| Data | Hand-curated JSON files in `/data` | Single source of truth; small enough to commit; no DB to maintain. |
-| User state | Browser `localStorage` | No auth → no DB → fits the free hosting story. |
+| Layer | Choice |
+|---|---|
+| Frontend | Vanilla **HTML + CSS + JavaScript** + [Leaflet](https://leafletjs.com/) for mapping. No build step. |
+| Backend | Python **Flask** + Flask-CORS. One file (`backend/app.py`) for the whole API. |
+| Data | Hand-curated JSON files in `/data` (`recyclers.json`, `materials.json`, `articles.json`). Single source of truth. |
+| Storage | Browser `localStorage` for user state. No database, no auth. |
+| Hosting | **GitHub Pages** for the frontend (auto-deploy via GitHub Actions workflow). **PythonAnywhere** free tier for the backend. Both free, both always-on. |
+| Geocoding | [Nominatim](https://nominatim.openstreetmap.org/) for one-time address → coordinate lookup, with the required 1 req/sec politeness throttle. |
 
 ## Repo layout
 
 ```
 scraptronic/
-├── frontend/                # static site → GitHub Pages
-│   ├── index.html, map.html, materials.html, tracker.html, learn.html, about.html
+├── frontend/             # static site → GitHub Pages
+│   ├── index.html, map.html, materials.html, tracker.html,
+│   │   learn.html, learn-article.html, about.html
 │   ├── css/style.css
-│   └── js/config.js         # points at the backend; localhost in dev, PythonAnywhere in prod
-├── backend/                 # Flask api → PythonAnywhere
-│   ├── app.py               # all routes, top to bottom
-│   ├── wsgi.py              # PythonAnywhere entry point
-│   └── requirements.txt
-├── data/                    # JSON gets added here over the next sessions
+│   ├── js/
+│   │   ├── config.js          # picks BACKEND_URL based on hostname
+│   │   ├── map.js             # Leaflet + sidebar
+│   │   ├── materials.js       # cards + calculator
+│   │   ├── tracker.js         # points/tier/CO2 math + localStorage
+│   │   └── learn.js           # tiny markdown renderer + article view
+│   ├── favicon.svg
+│   └── img/
+│       ├── og-image.png       # social preview card
+│       └── make_og_image.py   # Pillow script that builds it
+├── backend/              # Flask API → PythonAnywhere
+│   ├── app.py            # all routes, ~250 lines, top to bottom
+│   ├── wsgi.py           # PythonAnywhere entry point
+│   └── requirements.txt  # flask, flask-cors
+├── data/                 # JSON, loaded once at backend startup
+│   ├── recyclers.json    # 18 entries, each with a `source` field
+│   ├── materials.json    # 10 materials with price + source citations
+│   ├── articles.json     # 5 markdown articles + sources arrays
+│   └── build_recyclers.py # Nominatim geocoder for the recycler list
+├── .github/workflows/
+│   └── deploy-frontend.yml # publishes /frontend (and /data fallback)
 ├── LICENSE
 └── README.md
 ```
 
+## API
+
+All endpoints live under `/api`. Available at https://sriramgutta.pythonanywhere.com:
+
+```
+GET  /api/health                        # status + loaded counts
+GET  /api/recyclers[?material=<slug>]   # all 18, or filtered by accepted material
+GET  /api/recyclers/<id>                # one recycler, full detail
+GET  /api/materials                     # all 10 materials
+GET  /api/materials/<slug>              # one material
+POST /api/materials/estimate            # body {material, lbs} → $ estimate + range
+GET  /api/articles                      # summaries (no body)
+GET  /api/articles/<slug>               # full article + sources
+```
+
+Every frontend page falls back to the corresponding static JSON from GitHub Pages if the backend is unreachable, so the site keeps working even when the API is sleeping.
+
 ## Running locally
 
-**Frontend** (serves the static files on port 8000):
-
+### Frontend
 ```bash
 cd frontend
 python3 -m http.server 8000
-# then open http://127.0.0.1:8000/
+# open http://127.0.0.1:8000/
 ```
+`js/config.js` automatically points at `127.0.0.1:5000` when loaded from `localhost`, so the two halves talk to each other with no extra setup.
 
-**Backend** (Flask dev server on port 5000):
-
+### Backend
 ```bash
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python app.py
-# then check http://127.0.0.1:5000/api/health
+# check http://127.0.0.1:5000/api/health
 ```
 
-The frontend's `js/config.js` automatically points at `127.0.0.1:5000` when you load it from localhost, so the two halves talk to each other without any setup.
+## Data sources
 
-## Honest about this demo
+| Source | Used for |
+|---|---|
+| [CalRecycle CEW participant directory](https://www2.calrecycle.ca.gov/electronics/eRecycle/) | Approved-collector verification (San Diego E-Waste CEWID 116525, etc.) |
+| [CalRecycle SB 20 program rate schedule](https://www2.calrecycle.ca.gov/Docs/Web/132126) | CRT glass disposal rate (~$0.85/lb) |
+| [Urban Corps of San Diego County](https://urbancorpssd.org/ewaste/) | Two recycler entries + partner site |
+| [City of San Diego HHW](https://www.sandiego.gov/environmental-services/ep/hazardous) | Context (City facility does *not* accept e-waste) |
+| [EPA SMM Electronics](https://www.epa.gov/smm-electronics) | Article sourcing |
+| [EPA WARM model v15](https://www.epa.gov/sites/default/files/2020-12/documents/warm_electronics_v15_10-29-2020.pdf) | CO₂ savings factors in the tracker |
+| [UN Global E-Waste Monitor 2024](https://ewastemonitor.info/the-global-e-waste-monitor-2024/) | Article stats (62B kg generated, 22.3% recycled) |
+| [ScrapMonster](https://www.scrapmonster.com/scrap-yards/prices/san-diego/12) + [iScrap App](https://iscrapapp.com/metals/hard-drives/) | Regional scrap prices |
+| [Specialty Metals](https://www.specialtymetals.com/smelting-refining/electronics-circuit-boards) + [Boardsort](https://boardsort.com/payout.php) | Circuit board / precious metal recovery figures |
+| [NIST SP 800-88 r1](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-88r1.pdf) | Data sanitization references in the prep article |
 
-A few things up front so nobody has to ask:
+Each `recyclers.json` and `materials.json` entry carries its own `source` field with the URL and retrieval date.
 
-- **Scrap prices are estimates** sourced from public regional averages (ScrapMonster, iScrap App). Actual payouts vary by recycler, load size, and the day.
-- **Users get paid by the recyclers themselves**, not by this site. A production version of Scraptronic would partner with recyclers to facilitate payouts and take a transaction fee; this version focuses on discovery, education, and progress tracking.
-- **Recycler hours and contact info go stale.** Each entry will carry the date it was last verified, and the data file lives in the repo so anyone can submit a PR.
+## What's honest about this demo
 
-## What I'd build next (after Session 6)
+Scraptronic surfaces the **estimated** scrap value of materials based on publicly available regional prices. **Users are paid by the recycling centers themselves, not by this site.** A production version of Scraptronic would partner with recyclers to facilitate payouts and take a small transaction fee; this version focuses on **discovery, education, and progress tracking**.
 
-- Real recycler partnerships with payout intermediation.
-- User accounts (Postgres + JWT) so you can carry your history across devices.
-- Drop-off scheduling, route optimization for businesses with bulk e-waste.
-- Coverage beyond San Diego — California first, then nationwide.
+A few more honest disclosures:
+
+- **Scrap prices fluctuate weekly.** Every number is an estimate based on a sourced regional average and the sample date is shown on the card. Real payouts vary by recycler, load size, and what mood the buyer's in that day.
+- **Recycler hours and phone numbers go stale.** Each entry shows when it was last verified. Call ahead before you drive out.
+- **The CO₂-saved figures are approximations** derived from EPA WARM v15 factors. They're directionally honest but not a carbon credit.
+- **Circuit board gold "yield" is informational, not a calculator entry.** You can't and shouldn't try to extract gold from boards at home — the article explains why.
+
+## What I'd build next
+
+- **Real recycler partnerships** with payout intermediation and a transaction fee model.
+- **User accounts** (Postgres + JWT) so you can carry your history across devices.
+- **Drop-off scheduling** and route optimization for businesses with bulk e-waste.
+- **Geographic expansion** — California first (Oakland and LA have similar fragmented infrastructure), then nationwide.
+- **A PWA build** so the tracker works offline on your phone at the recycler.
+
+## Tech choices I made (and why)
+
+- **PythonAnywhere over Vercel for the Flask backend.** Vercel's Python serverless cold starts (1–3s per endpoint) hurt the map page's first impression. PythonAnywhere's free tier is always-on, slower per-request but never cold.
+- **GitHub Actions workflow to deploy from `/frontend`.** GitHub Pages only supports `/` or `/docs` as a source folder; a workflow lets the actual frontend code live under `frontend/` (clearer than calling app code "docs") while still publishing static `/data/*.json` alongside it for the fallback path.
+- **No build step, no framework.** Plain HTML/CSS/JS keeps the page source readable in `View Source`, the repo is approachable for anyone curious to fork it, and the architecture has no opinions about JavaScript fashion that'll age in a year.
+- **localStorage instead of a real database.** Removed every reason to add auth, removed every reason to think about per-user privacy, and kept the project inside free hosting comfortably. The tracker even ships with an "Export my data" button so users can take it with them.
+- **Per-record `source` fields** in `recyclers.json` and `materials.json` instead of one big "credits" section. Makes the data file the source of truth for both the page AND the citation, and means anyone forking the repo can audit a single entry without reading the README.
 
 ## License
 

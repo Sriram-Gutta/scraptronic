@@ -4,7 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Scraptronic</title>
+    <meta name="description" content="Why I built Scraptronic - a computer engineering student from San Diego trying to make e-waste recycling a little less scattered.">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- social link previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sriram-gutta.github.io/scraptronic/about.html">
+    <meta property="og:title" content="About - Scraptronic">
+    <meta property="og:description" content="Why I built Scraptronic - a computer engineering student from San Diego trying to make e-waste recycling a little less scattered.">
+    <meta property="og:image" content="https://sriram-gutta.github.io/scraptronic/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .about-body p {
+            font-size: 16px;
+            line-height: 1.65;
+            margin: 14px 0;
+        }
+        .about-body h2 {
+            font-size: 21px;
+            margin: 28px 0 6px 0;
+        }
+        .about-body ul {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .about-card {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 28px 32px;
+            margin-top: 8px;
+        }
+        @media (max-width: 600px) {
+            .about-card { padding: 20px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -22,29 +59,98 @@
 
 <header class="page-header">
     <h1>About Scraptronic</h1>
+    <p>Why this site exists.</p>
 </header>
 
 <main class="container">
 
-    <p>
-        I'm Sriram, a computer engineering student at Purdue from San Diego. I built
-        Scraptronic because I had a drawer of dead phones and old laptop batteries and
-        no idea what to do with them. The official lists are scattered across half a
-        dozen government sites, the scrap prices live on industry pages, and nobody
-        connects "you have an old laptop" to "this aluminum and copper is actually
-        worth a few dollars."
-    </p>
-    <p>
-        This project pulls those pieces together for the San Diego area: a single
-        map of recyclers, honest estimates of what materials are worth, and a way to
-        track what you've kept out of a landfill. Everything's open source.
-    </p>
-    <p>
-        The frontend is plain HTML, CSS, and JavaScript with
-        <a href="https://leafletjs.com/">Leaflet</a> for the map. The backend is a
-        small Python Flask API. Recycler data comes from public CalRecycle, San Diego
-        ESD, and EPA listings — every entry cites its source.
-    </p>
+    <div class="about-card about-body">
+
+        <p>
+            I'm <strong>Sriram Gutta</strong>, a computer engineering student at Purdue. I grew up in
+            San Diego and I built Scraptronic because I had a drawer of dead phones,
+            a stack of old laptop chargers, and a defunct external hard drive that I'd
+            been telling myself I'd "figure out" for two years.
+        </p>
+
+        <p>
+            When I finally sat down to figure it out, the problem wasn't the recycling
+            itself - San Diego actually has a lot of free e-waste drop-off options. The
+            problem was that the information is scattered across half a dozen places:
+            CalRecycle's database, the City of San Diego's hazardous waste page (which
+            confusingly tells you they don't take e-waste), individual recycler websites,
+            Earth911's locator, and a handful of nonprofits. No single map. No clear
+            sense of which places take what. No indication that the aluminum in my old
+            laptop is actually worth a few dollars.
+        </p>
+
+        <p>
+            Scraptronic is my attempt to bundle that scattered information into one place,
+            focused on the San Diego area to start. It's also a working portfolio piece -
+            a real platform built on real public data, with a live backend, no fake
+            features, and source citations on every claim.
+        </p>
+
+        <h2>What it actually does</h2>
+        <ul>
+            <li>
+                <a href="map.html">An interactive map</a> of 18 hand-curated e-waste
+                drop-off locations across San Diego County, each entry citing the
+                public registry it came from.
+            </li>
+            <li>
+                <a href="materials.html">A materials catalog</a> with estimated regional
+                scrap prices for the common stuff in your old electronics - aluminum,
+                copper, circuit boards, lithium batteries, etc. - plus a small calculator
+                that turns "5 lbs of copper" into a dollar estimate.
+            </li>
+            <li>
+                <a href="tracker.html">A personal recycling tracker</a> backed entirely
+                by your browser's localStorage. Log entries, watch the totals add up,
+                progress through tiers, see your estimated CO₂ savings using EPA WARM
+                model factors. No account, no signup, no data leaves your machine.
+            </li>
+            <li>
+                <a href="learn.html">A small library of articles</a> covering what
+                counts as e-waste, how recycling actually works, why San Diego has
+                the infrastructure it does, and how to prep your devices before drop-off.
+            </li>
+        </ul>
+
+        <h2>Engineering notes</h2>
+        <p>
+            The frontend is plain HTML, CSS, and JavaScript - no React, no build step,
+            no framework. The map uses <a href="https://leafletjs.com/">Leaflet</a> with
+            OpenStreetMap tiles. The backend is a small Python <a
+            href="https://flask.palletsprojects.com/">Flask</a> API running on
+            PythonAnywhere's free tier. User progress lives in
+            <code>localStorage</code>, which means no auth, no database, and the
+            architecture fits inside free hosting indefinitely.
+        </p>
+
+        <p>
+            Every page falls back to static JSON published with the frontend if the
+            backend is unreachable, so the site keeps working even if PythonAnywhere
+            is having a bad day. Source is on
+            <a href="https://github.com/Sriram-Gutta/scraptronic">GitHub</a>.
+        </p>
+
+        <h2>What's honest about this demo</h2>
+        <p>
+            Scraptronic shows you the estimated scrap value of materials based on
+            publicly available regional prices - it does <strong>not</strong> pay you for
+            recycling. The recycler does, when you bring them the materials. A production
+            version of Scraptronic would partner with recyclers to intermediate
+            payouts and take a small transaction fee; this version focuses on
+            <em>discovery</em>, <em>education</em>, and <em>progress tracking</em>.
+        </p>
+
+        <p>
+            Recycler hours and phone numbers go stale. Call ahead. Scrap prices fluctuate
+            weekly. Treat every number on this site as an estimate, not a quote.
+        </p>
+
+    </div>
 
 </main>
 
