@@ -220,23 +220,24 @@ function initArticle() {
         return;
     }
 
-    // try the backend's per-slug endpoint first
+    // try the backend's per-slug endpoint first. on ANY failure (including
+    // a 404, which can happen if the backend just doesn't have the endpoint
+    // yet), fall back to scanning the static articles file from github pages.
+    // we only show "not found" if neither source has the article.
     fetch(BACKEND_URL + '/api/articles/' + encodeURIComponent(slug))
         .then(function(resp) {
-            if (resp.status === 404) throw new Error('not_found');
-            if (!resp.ok) throw new Error('backend_error');
+            if (!resp.ok) throw new Error('backend_miss_' + resp.status);
             return resp.json();
         })
         .then(renderArticle)
         .catch(function(err) {
-            if (err.message === 'not_found') {
-                showArticleNotFound(slug);
-                return;
-            }
-            // backend unreachable - pull the full articles file and search it
-            console.warn('article endpoint failed, falling back to static');
+            console.warn('article fetch from backend failed (' + err.message +
+                         '), trying static fallback');
             fetch('data/articles.json')
-                .then(function(resp) { return resp.json(); })
+                .then(function(resp) {
+                    if (!resp.ok) throw new Error('fallback_failed');
+                    return resp.json();
+                })
                 .then(function(articles) {
                     for (var i = 0; i < articles.length; i++) {
                         if (articles[i].slug === slug) {
@@ -244,6 +245,7 @@ function initArticle() {
                             return;
                         }
                     }
+                    // genuinely not in either source
                     showArticleNotFound(slug);
                 })
                 .catch(function(err2) {
