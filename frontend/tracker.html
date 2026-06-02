@@ -5,6 +5,292 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Recycling - Scraptronic</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* tracker page styles */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .stat {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #6b7a6e;
+            margin-bottom: 4px;
+        }
+
+        .stat .value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1f5a39;
+        }
+
+        .stat .value.muted {
+            color: #6b7a6e;
+        }
+
+
+        /* tier badge / progress */
+
+        .tier-card {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tier-header .name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .tier-header .name .icon {
+            font-size: 22px;
+            margin-right: 6px;
+        }
+
+        .tier-header .progress-text {
+            font-size: 13px;
+            color: #6b7a6e;
+        }
+
+        .progress-bar {
+            background: #eef1ec;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar .fill {
+            background: linear-gradient(90deg, #2d7a4f 0%, #4ca678 100%);
+            height: 100%;
+            transition: width 0.4s ease;
+        }
+
+
+        /* add-entry form */
+
+        .add-form {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        .add-form h2 {
+            margin: 0 0 14px 0;
+            font-size: 18px;
+        }
+
+        .add-form .form-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .add-form .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .add-form label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5a4d;
+            margin-bottom: 4px;
+        }
+
+        .add-form select,
+        .add-form input {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 14px;
+            border: 1px solid #c3ccc2;
+            border-radius: 5px;
+            background: #ffffff;
+            font-family: inherit;
+        }
+
+        .add-form .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .add-form button {
+            background: #2d7a4f;
+            color: #ffffff;
+            border: none;
+            padding: 9px 22px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .add-form button:hover {
+            background: #1f5a39;
+        }
+
+        .add-form .form-msg {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #a23a25;
+            display: none;
+        }
+
+        .add-form .form-msg.show {
+            display: block;
+        }
+
+
+        /* entries list */
+
+        .entries-card {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 8px 0;
+            margin-bottom: 24px;
+        }
+
+        .entries-card h2 {
+            margin: 8px 18px 8px 18px;
+            font-size: 18px;
+        }
+
+        .entries-empty {
+            padding: 24px;
+            text-align: center;
+            color: #6b7a6e;
+            font-size: 14px;
+        }
+
+        .entry-row {
+            padding: 12px 18px;
+            border-top: 1px solid #eef1ec;
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 12px;
+            align-items: center;
+        }
+
+        @media (max-width: 600px) {
+            .entry-row {
+                grid-template-columns: 1fr auto;
+                grid-template-areas: "main delete" "meta meta";
+                row-gap: 4px;
+            }
+            .entry-row .main { grid-area: main; }
+            .entry-row .delete { grid-area: delete; }
+            .entry-row .meta { grid-area: meta; }
+        }
+
+        .entry-row .main .mat {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .entry-row .main .extra {
+            font-size: 12px;
+            color: #6b7a6e;
+        }
+
+        .entry-row .meta {
+            text-align: right;
+            font-size: 13px;
+            color: #4a5a4d;
+        }
+
+        .entry-row .value {
+            text-align: right;
+            font-weight: 600;
+            color: #1f5a39;
+            font-size: 14px;
+        }
+
+        .entry-row .value.negative {
+            color: #a23a25;
+        }
+
+        .entry-row .points {
+            text-align: right;
+            font-size: 12px;
+            color: #6b7a6e;
+        }
+
+        .entry-row .delete button {
+            background: transparent;
+            border: 1px solid #d0d6cd;
+            color: #6b7a6e;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .entry-row .delete button:hover {
+            background: #f6f7f3;
+            color: #a23a25;
+        }
+
+
+        /* footer actions */
+
+        .actions-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions-row button {
+            background: transparent;
+            border: 1px solid #c3ccc2;
+            color: #4a5a4d;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .actions-row button:hover {
+            background: #f6f7f3;
+        }
+
+        .actions-row button.danger:hover {
+            color: #a23a25;
+            border-color: #a23a25;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,29 +308,96 @@
 
 <header class="page-header">
     <h1>My Recycling</h1>
-    <p>Log what you've recycled and watch your impact add up.</p>
+    <p>Log what you've recycled. Everything stays in your browser - no signup, no tracking.</p>
 </header>
 
 <main class="container">
 
-    <div class="placeholder">
-        <p><strong>Coming in the next build.</strong></p>
-        <p>
-            A form to log a recycling entry (material, pounds, date, which center you
-            went to), a running total of pounds and estimated $ value, points and tier
-            progress (Seedling → Sapling → Tree → Forest), and a rough CO₂-saved estimate
-            using EPA WARM model factors. All saved to your browser's localStorage —
-            no signup, no tracking.
-        </p>
+    <!-- top stats -->
+    <div class="stats-grid">
+        <div class="stat">
+            <div class="label">Pounds Recycled</div>
+            <div class="value" id="stat-lbs">0</div>
+        </div>
+        <div class="stat">
+            <div class="label">Est. Value</div>
+            <div class="value" id="stat-value">$0.00</div>
+        </div>
+        <div class="stat">
+            <div class="label">CO₂ Saved</div>
+            <div class="value" id="stat-co2">0 lbs</div>
+        </div>
+        <div class="stat">
+            <div class="label">Points</div>
+            <div class="value" id="stat-points">0</div>
+        </div>
+    </div>
+
+    <!-- tier progress -->
+    <div class="tier-card">
+        <div class="tier-header">
+            <div class="name"><span class="icon" id="tier-icon">🌱</span><span id="tier-name">Seedling</span></div>
+            <div class="progress-text" id="tier-progress-text">0 / 100 points to next tier</div>
+        </div>
+        <div class="progress-bar"><div class="fill" id="tier-fill" style="width: 0%"></div></div>
+    </div>
+
+    <!-- add entry form -->
+    <div class="add-form">
+        <h2>Log a new recycling entry</h2>
+        <div class="form-grid">
+            <div>
+                <label for="entry-material">Material</label>
+                <select id="entry-material">
+                    <option value="">Loading...</option>
+                </select>
+            </div>
+            <div>
+                <label for="entry-lbs">Pounds</label>
+                <input type="number" id="entry-lbs" step="0.1" min="0" value="1">
+            </div>
+            <div>
+                <label for="entry-date">Date</label>
+                <input type="date" id="entry-date">
+            </div>
+            <div>
+                <label for="entry-recycler">Recycler (optional)</label>
+                <select id="entry-recycler">
+                    <option value="">— not specified —</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button id="entry-submit">Add Entry</button>
+        </div>
+        <div class="form-msg" id="form-msg"></div>
+    </div>
+
+    <!-- entries list -->
+    <div class="entries-card">
+        <h2>Recent Entries</h2>
+        <div id="entries-list">
+            <div class="entries-empty">No entries yet. Add your first one above.</div>
+        </div>
+    </div>
+
+    <!-- export / reset -->
+    <div class="actions-row">
+        <button id="export-button">Export my data (JSON)</button>
+        <button id="reset-button" class="danger">Reset (clear all entries)</button>
     </div>
 
 </main>
 
 <footer class="footer">
-    Your log stays in your browser. Nothing leaves your device.
+    CO₂ savings estimated using EPA WARM (Waste Reduction Model) v15 factors ·
+    Your log stays in this browser; nothing is sent to a server.
     <br>
     <a href="https://github.com/Sriram-Gutta/scraptronic">Source on GitHub</a>
 </footer>
+
+<script src="js/config.js"></script>
+<script src="js/tracker.js"></script>
 
 </body>
 </html>
