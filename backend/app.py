@@ -64,6 +64,24 @@ def load_materials():
 load_materials()
 
 
+# and the articles
+ARTICLES = []
+ARTICLES_BY_SLUG = {}
+
+def load_articles():
+    global ARTICLES, ARTICLES_BY_SLUG
+    path = os.path.join(DATA_DIR, "articles.json")
+    try:
+        with open(path) as f:
+            ARTICLES = json.load(f)
+        ARTICLES_BY_SLUG = {a["slug"]: a for a in ARTICLES}
+        print(f"loaded {len(ARTICLES)} articles from {path}")
+    except FileNotFoundError:
+        print(f"WARN: {path} not found - /api/articles will return empty")
+
+load_articles()
+
+
 # basic healthcheck so we can confirm the api is up
 @app.route("/api/health")
 def health():
@@ -71,6 +89,7 @@ def health():
         "status": "ok",
         "recyclers_loaded": len(RECYCLERS),
         "materials_loaded": len(MATERIALS),
+        "articles_loaded": len(ARTICLES),
     })
 
 
@@ -162,8 +181,28 @@ def estimate_value():
     })
 
 
-# more endpoints get added in the next session:
-#   /api/articles, /api/articles/<slug>
+# return all articles (without the full body_md, to keep the index payload small)
+@app.route("/api/articles")
+def list_articles():
+    summary = []
+    for a in ARTICLES:
+        summary.append({
+            "slug": a["slug"],
+            "title": a["title"],
+            "preview": a["preview"],
+            "reading_time_min": a["reading_time_min"],
+            "last_updated": a["last_updated"],
+        })
+    return jsonify(summary)
+
+
+# return one article by slug (with the full body_md and sources)
+@app.route("/api/articles/<slug>")
+def get_article(slug):
+    a = ARTICLES_BY_SLUG.get(slug)
+    if a is None:
+        return jsonify({"error": "not found"}), 404
+    return jsonify(a)
 
 
 if __name__ == "__main__":

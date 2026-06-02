@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Scraptronic</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* article view styles */
+
+        .article {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 32px 36px;
+        }
+
+        @media (max-width: 600px) {
+            .article {
+                padding: 22px 18px;
+            }
+        }
+
+        .article .back-link {
+            font-size: 13px;
+            margin-bottom: 18px;
+            display: inline-block;
+            color: #6b7a6e;
+        }
+
+        .article h1 {
+            margin: 0 0 6px 0;
+            font-size: 30px;
+            line-height: 1.2;
+        }
+
+        .article .meta {
+            font-size: 13px;
+            color: #6b7a6e;
+            margin-bottom: 24px;
+        }
+
+        .article .body h2 {
+            margin: 28px 0 8px 0;
+            font-size: 21px;
+        }
+
+        .article .body h3 {
+            margin: 22px 0 6px 0;
+            font-size: 17px;
+        }
+
+        .article .body p {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.65;
+        }
+
+        .article .body ul {
+            margin: 10px 0;
+            padding-left: 22px;
+        }
+
+        .article .body li {
+            margin: 6px 0;
+            font-size: 16px;
+            line-height: 1.55;
+        }
+
+        .article .body a {
+            color: #2d7a4f;
+        }
+
+        .article .body strong {
+            color: #1a2e1f;
+        }
+
+        .article .sources {
+            margin-top: 32px;
+            padding-top: 18px;
+            border-top: 1px solid #e1e6db;
+        }
+
+        .article .sources h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #6b7a6e;
+        }
+
+        .article .sources ul {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .article .sources li {
+            font-size: 14px;
+            margin: 4px 0;
+        }
+
+        .loading {
+            padding: 60px 24px;
+            text-align: center;
+            color: #6b7a6e;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="brand"><span class="leaf">♻</span> Scraptronic</div>
+    <div class="links">
+        <a href="index.html">Home</a>
+        <a href="map.html">Recycler Map</a>
+        <a href="materials.html">Materials</a>
+        <a href="tracker.html">My Recycling</a>
+        <a href="learn.html" class="active">Learn</a>
+        <a href="about.html">About</a>
+    </div>
+</nav>
+
+<main class="container">
+    <div id="article-host">
+        <div class="loading">Loading article…</div>
+    </div>
+</main>
+
+<footer class="footer">
+    <a href="https://github.com/Sriram-Gutta/scraptronic">Source on GitHub</a>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/learn.js"></script>
+
+</body>
+</html>

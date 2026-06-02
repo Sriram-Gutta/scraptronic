@@ -5,6 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn - Scraptronic</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* learn page styles */
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .article-card {
+            background: #ffffff;
+            border: 1px solid #e1e6db;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .article-card:hover {
+            border-color: #2d7a4f;
+            box-shadow: 0 2px 6px rgba(45, 122, 79, 0.08);
+            text-decoration: none;
+        }
+
+        .article-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a2e1f;
+        }
+
+        .article-card .preview {
+            color: #4a5a4d;
+            font-size: 14px;
+            margin: 0 0 14px 0;
+            flex-grow: 1;
+        }
+
+        .article-card .meta {
+            font-size: 12px;
+            color: #6b7a6e;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .loading {
+            padding: 24px;
+            text-align: center;
+            color: #6b7a6e;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,26 +74,21 @@
 
 <header class="page-header">
     <h1>Learn</h1>
-    <p>Why e-waste matters and how to actually deal with it.</p>
+    <p>Short reads on the e-waste problem and how to deal with it. Every claim cites a source.</p>
 </header>
 
 <main class="container">
-
-    <div class="placeholder">
-        <p><strong>Coming in the next build.</strong></p>
-        <p>
-            Short articles on what counts as e-waste, the surprising amount of gold
-            in old circuit boards, how San Diego's e-waste program actually works,
-            and how to prep your devices for drop-off (wipe drives, remove batteries,
-            etc.). Each one cites EPA, CalRecycle, or other public sources.
-        </p>
+    <div class="article-grid" id="article-grid">
+        <div class="loading">Loading articles…</div>
     </div>
-
 </main>
 
 <footer class="footer">
     <a href="https://github.com/Sriram-Gutta/scraptronic">Source on GitHub</a>
 </footer>
+
+<script src="js/config.js"></script>
+<script src="js/learn.js"></script>
 
 </body>
 </html>
