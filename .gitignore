@@ -1,0 +1,17 @@
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# local config
+*.local

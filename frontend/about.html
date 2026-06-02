@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Scraptronic</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="brand"><span class="leaf">♻</span> Scraptronic</div>
+    <div class="links">
+        <a href="index.html">Home</a>
+        <a href="map.html">Recycler Map</a>
+        <a href="materials.html">Materials</a>
+        <a href="tracker.html">My Recycling</a>
+        <a href="learn.html">Learn</a>
+        <a href="about.html" class="active">About</a>
+    </div>
+</nav>
+
+<header class="page-header">
+    <h1>About Scraptronic</h1>
+</header>
+
+<main class="container">
+
+    <p>
+        I'm Sriram, a computer engineering student at Purdue from San Diego. I built
+        Scraptronic because I had a drawer of dead phones and old laptop batteries and
+        no idea what to do with them. The official lists are scattered across half a
+        dozen government sites, the scrap prices live on industry pages, and nobody
+        connects "you have an old laptop" to "this aluminum and copper is actually
+        worth a few dollars."
+    </p>
+    <p>
+        This project pulls those pieces together for the San Diego area: a single
+        map of recyclers, honest estimates of what materials are worth, and a way to
+        track what you've kept out of a landfill. Everything's open source.
+    </p>
+    <p>
+        The frontend is plain HTML, CSS, and JavaScript with
+        <a href="https://leafletjs.com/">Leaflet</a> for the map. The backend is a
+        small Python Flask API. Recycler data comes from public CalRecycle, San Diego
+        ESD, and EPA listings — every entry cites its source.
+    </p>
+
+</main>
+
+<footer class="footer">
+    <a href="https://github.com/Sriram-Gutta/scraptronic">Source on GitHub</a>
+</footer>
+
+</body>
+</html>
