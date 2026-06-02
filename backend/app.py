@@ -82,6 +82,56 @@ def load_articles():
 load_articles()
 
 
+# friendly landing page for anyone who hits the bare backend URL.
+# the actual app is the frontend on github pages - this server is just
+# the json api - so point visitors at the right place.
+@app.route("/")
+def root():
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Scraptronic API</title>
+<style>
+body { font-family: -apple-system, system-ui, sans-serif;
+       max-width: 640px; margin: 60px auto; padding: 0 20px;
+       color: #1a2e1f; line-height: 1.55; }
+h1 { color: #1f5a39; margin-bottom: 4px; }
+.tag { color: #6b7a6e; margin-top: 0; }
+a { color: #2d7a4f; }
+code { background: #f6f7f3; padding: 2px 6px; border-radius: 3px;
+       font-size: 14px; }
+ul { padding-left: 20px; }
+li { margin: 4px 0; }
+.cta { display: inline-block; background: #2d7a4f; color: #fff;
+       padding: 10px 22px; border-radius: 5px; text-decoration: none;
+       font-weight: 600; margin-top: 12px; }
+</style>
+</head>
+<body>
+<h1>Scraptronic API</h1>
+<p class="tag">You found the backend. The actual site is over here:</p>
+<p><a class="cta" href="https://sriram-gutta.github.io/scraptronic/">Open Scraptronic &rarr;</a></p>
+<h3>If you're poking around the API:</h3>
+<ul>
+  <li><a href="/api/health"><code>GET /api/health</code></a> &mdash; status + counts</li>
+  <li><a href="/api/recyclers"><code>GET /api/recyclers</code></a> &mdash; all 18 San Diego drop-offs</li>
+  <li><code>GET /api/recyclers/&lt;id&gt;</code></li>
+  <li><a href="/api/materials"><code>GET /api/materials</code></a> &mdash; 10 e-waste materials with scrap prices</li>
+  <li><code>GET /api/materials/&lt;slug&gt;</code></li>
+  <li><code>POST /api/materials/estimate</code> &mdash; body <code>{material, lbs}</code></li>
+  <li><a href="/api/articles"><code>GET /api/articles</code></a> &mdash; 5 educational articles</li>
+  <li><code>GET /api/articles/&lt;slug&gt;</code></li>
+</ul>
+<p style="margin-top:30px; color:#6b7a6e; font-size:14px;">
+Source: <a href="https://github.com/Sriram-Gutta/scraptronic">github.com/Sriram-Gutta/scraptronic</a>
+</p>
+</body>
+</html>
+"""
+    return html
+
+
 # basic healthcheck so we can confirm the api is up
 @app.route("/api/health")
 def health():
