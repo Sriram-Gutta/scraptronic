@@ -22,22 +22,35 @@ a:hover {
 }
 
 
-/* top nav */
+/* top nav - sticky, with a subtle frosted-glass effect once you scroll */
 
 .nav {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
     border-bottom: 1px solid #e1e6db;
     padding: 14px 24px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
+.nav a.brand,
 .nav .brand {
     font-weight: 700;
     font-size: 20px;
     color: #1a2e1f;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+
+.nav a.brand:hover {
+    text-decoration: none;
+    opacity: 0.78;
 }
 
 .nav .brand .leaf {
@@ -70,13 +83,28 @@ a:hover {
 }
 
 
-/* hero (home page) */
+/* hero (home page) - parallax background image with a green overlay
+   so the heading text stays readable on top of the circuit board photo */
 
 .hero {
-    background: linear-gradient(135deg, #2d7a4f 0%, #1f5a39 100%);
+    background-image:
+        linear-gradient(135deg, rgba(45, 122, 79, 0.88) 0%, rgba(20, 60, 38, 0.94) 100%),
+        url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #ffffff;
-    padding: 64px 24px;
+    padding: 96px 24px;
     text-align: center;
+}
+
+/* on mobile, fixed attachment is janky and burns battery - go back to normal */
+@media (max-width: 700px) {
+    .hero {
+        background-attachment: scroll;
+        padding: 64px 20px;
+    }
 }
 
 .hero h1 {
@@ -186,6 +214,31 @@ a:hover {
 
 .footer a {
     color: #4a5a4d;
+}
+
+
+/* scroll-triggered fade-in. elements with class="fade-in" start invisible
+   and slightly translated down; js/scroll-fx.js adds .visible once they
+   intersect the viewport. honors the user's reduced-motion preference. */
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .fade-in.visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
 
 

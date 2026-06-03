@@ -41,14 +41,36 @@
         @media (max-width: 600px) {
             .about-card { padding: 20px; }
         }
+
+        /* banner photo at the top of the about card */
+        .about-banner {
+            height: 220px;
+            border-radius: 8px;
+            margin: -8px 0 24px 0;
+            background-image:
+                linear-gradient(135deg, rgba(31, 90, 57, 0.45) 0%, rgba(45, 122, 79, 0.20) 100%),
+                url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1600&q=80&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        @media (max-width: 600px) {
+            .about-banner { height: 160px; }
+        }
+        .about-credit {
+            font-size: 12px;
+            color: #6b7a6e;
+            margin-top: 28px;
+            padding-top: 14px;
+            border-top: 1px solid #eef1ec;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
 <nav class="nav">
-    <div class="brand"><span class="leaf">♻</span> Scraptronic</div>
+    <a class="brand" href="index.html"><span class="leaf">♻</span> Scraptronic</a>
     <div class="links">
-        <a href="index.html">Home</a>
         <a href="map.html">Recycler Map</a>
         <a href="materials.html">Materials</a>
         <a href="tracker.html">My Recycling</a>
@@ -65,6 +87,8 @@
 <main class="container">
 
     <div class="about-card about-body">
+
+        <div class="about-banner"></div>
 
         <p>
             I'm <strong>Sriram Gutta</strong>, a computer engineering student at Purdue. I grew up in
@@ -150,6 +174,11 @@
             weekly. Treat every number on this site as an estimate, not a quote.
         </p>
 
+        <div class="about-credit">
+            Banner and hero photos from
+            <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>.
+        </div>
+
     </div>
 
 </main>
@@ -157,6 +186,8 @@
 <footer class="footer">
     <a href="https://github.com/Sriram-Gutta/scraptronic">Source on GitHub</a>
 </footer>
+
+<script src="js/scroll-fx.js"></script>
 
 </body>
 </html>
