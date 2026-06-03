@@ -156,6 +156,259 @@ a:hover {
 }
 
 
+/* section heading used by the new home-page sections */
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: #1a2e1f;
+    text-align: center;
+}
+
+.section-sub {
+    text-align: center;
+    color: #6b7a6e;
+    font-size: 16px;
+    margin: 0 0 32px 0;
+}
+
+
+/* alternating-background sections on the home page */
+
+.section {
+    padding: 64px 24px;
+}
+
+.section.alt {
+    background: #ffffff;
+    border-top: 1px solid #eef1ec;
+    border-bottom: 1px solid #eef1ec;
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 44px 16px;
+    }
+}
+
+
+/* big-stats row (the e-waste problem section) */
+
+.big-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.big-stat {
+    text-align: center;
+    padding: 24px 16px;
+}
+
+.big-stat .number {
+    font-size: 48px;
+    font-weight: 800;
+    color: #1f5a39;
+    line-height: 1.05;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+
+.big-stat .label {
+    font-size: 15px;
+    color: #4a5a4d;
+    line-height: 1.4;
+}
+
+.stats-source {
+    text-align: center;
+    color: #6b7a6e;
+    font-size: 13px;
+    margin-top: 24px;
+    font-style: italic;
+}
+
+
+/* how-it-works steps */
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.step {
+    text-align: center;
+    padding: 8px 12px;
+}
+
+.step .step-num {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #2d7a4f;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px auto;
+}
+
+.step h3 {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    color: #1a2e1f;
+}
+
+.step p {
+    font-size: 15px;
+    color: #4a5a4d;
+    line-height: 1.55;
+    margin: 0;
+}
+
+
+/* learn preview grid (mini article cards on the home page) */
+
+.learn-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.learn-preview-card {
+    background: #ffffff;
+    border: 1px solid #e1e6db;
+    border-radius: 8px;
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.learn-preview-card:hover {
+    border-color: #2d7a4f;
+    box-shadow: 0 2px 6px rgba(45, 122, 79, 0.08);
+    text-decoration: none;
+}
+
+.learn-preview-card h3 {
+    font-size: 17px;
+    margin: 0 0 8px 0;
+    color: #1a2e1f;
+}
+
+.learn-preview-card p {
+    font-size: 14px;
+    color: #4a5a4d;
+    margin: 0 0 14px 0;
+    flex-grow: 1;
+}
+
+.learn-preview-card .meta {
+    font-size: 12px;
+    color: #6b7a6e;
+}
+
+.learn-preview-more {
+    text-align: center;
+    margin-top: 22px;
+}
+
+.learn-preview-more a {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+
+/* the "why I built it" teaser block */
+
+.about-teaser {
+    background: #ffffff;
+    border: 1px solid #e1e6db;
+    border-radius: 10px;
+    padding: 36px;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-teaser p {
+    font-size: 16px;
+    color: #2c382e;
+    line-height: 1.65;
+    margin: 0 0 18px 0;
+}
+
+.about-teaser .button {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #2d7a4f;
+    color: #ffffff;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.about-teaser .button:hover {
+    background: #1f5a39;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .about-teaser { padding: 24px 18px; }
+    .big-stat .number { font-size: 38px; }
+}
+
+
+/* final CTA section */
+
+.final-cta {
+    background: linear-gradient(135deg, #2d7a4f 0%, #1f5a39 100%);
+    color: #ffffff;
+    text-align: center;
+}
+
+.final-cta h2 {
+    font-size: 26px;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+}
+
+.final-cta p {
+    margin: 0 0 22px 0;
+    font-size: 16px;
+    opacity: 0.92;
+}
+
+.final-cta .button {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #ffffff;
+    color: #1f5a39;
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+    margin: 4px;
+}
+
+.final-cta .button.outline {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+
 /* feature card grid */
 
 .cards {
