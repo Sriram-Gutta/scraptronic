@@ -14,7 +14,7 @@
 
 | Page | What you get |
 |---|---|
-| **Map** | A Leaflet map of 18 hand-curated San Diego e-waste drop-offs. Click a marker for hours, phone, what they accept, and the public registry the entry came from. |
+| **Map** | A Leaflet map of 30 hand-curated San Diego e-waste drop-offs. Click a marker for hours, phone, what they accept, and the public registry the entry came from. |
 | **Materials** | A catalog of 10 common e-waste materials with regional scrap prices (aluminum, copper, brass, circuit boards, lithium batteries, hard drives, CRT glass, and more). Calculator widget turns *"5 lbs of copper"* into a $ estimate. |
 | **My Recycling** | A personal tracker backed by browser `localStorage`. Log entries, see running totals, progress through tiers, and watch estimated CO₂ savings add up using EPA WARM factors. No signup. |
 | **Learn** | Five short articles (300–500 words each) on the e-waste problem, how recycling actually works, the gold in your old laptop, and how to prep devices for drop-off. Every claim cites a source. |
@@ -57,7 +57,7 @@ scraptronic/
 │   ├── wsgi.py           # PythonAnywhere entry point
 │   └── requirements.txt  # flask, flask-cors
 ├── data/                 # JSON, loaded once at backend startup
-│   ├── recyclers.json    # 18 entries, each with a `source` field
+│   ├── recyclers.json    # 30 entries, each with a `source` field
 │   ├── materials.json    # 10 materials with price + source citations
 │   ├── articles.json     # 5 markdown articles + sources arrays
 │   └── build_recyclers.py # Nominatim geocoder for the recycler list
@@ -73,7 +73,7 @@ All endpoints live under `/api`. Available at https://sriramgutta.pythonanywhere
 
 ```
 GET  /api/health                        # status + loaded counts
-GET  /api/recyclers[?material=<slug>]   # all 18, or filtered by accepted material
+GET  /api/recyclers[?material=<slug>]   # all 30, or filtered by accepted material
 GET  /api/recyclers/<id>                # one recycler, full detail
 GET  /api/materials                     # all 10 materials
 GET  /api/materials/<slug>              # one material

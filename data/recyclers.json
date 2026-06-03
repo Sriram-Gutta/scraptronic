@@ -289,8 +289,8 @@
     "id": "r-010",
     "name": "Simba Recycles - San Marcos",
     "address": "2892 S Santa Fe Avenue Suite 109, San Marcos, CA 92069",
-    "lat": 33.157719,
-    "lng": -117.201807,
+    "lat": 33.157648,
+    "lng": -117.201713,
     "phone": "(619) 837-8284",
     "website": "https://ewaste.simbarecycles.com/",
     "hours": {
@@ -539,5 +539,363 @@
     "accepts_business": false,
     "notes": "Carrier store - accepts mobile devices for recycling regardless of carrier.",
     "source": "techwasterecycling.com listing + verizon.com recycling page, retrieved 2026-06"
+  },
+  {
+    "id": "r-019",
+    "name": "SES Recycling - Sorrento Valley",
+    "address": "8810 Rehco Road Suite C, San Diego, CA 92121",
+    "lat": 32.8827,
+    "lng": -117.171067,
+    "phone": "(858) 909-0802",
+    "website": "https://www.sesrecycling.com/",
+    "hours": {
+      "mon": "9:00-17:00",
+      "tue": "9:00-17:00",
+      "wed": "9:00-17:00",
+      "thu": "9:00-17:00",
+      "fri": "9:00-17:00",
+      "sat": "closed",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "servers",
+      "hard_drives",
+      "phones",
+      "tablets",
+      "circuit_boards",
+      "batteries"
+    ],
+    "accepts_business": true,
+    "notes": "CalRecycle CEWID 116118. Specializes in secure ITAR data destruction; serves businesses, schools, gov, medical, financial. Call to confirm walk-in drop-off availability.",
+    "source": "sesrecycling.com + CalRecycle CEWID 116118 listing, retrieved 2026-06"
+  },
+  {
+    "id": "r-020",
+    "name": "EnviroGreen Electronic Recycling",
+    "address": "8440 Production Avenue, San Diego, CA 92121",
+    "lat": 32.879969,
+    "lng": -117.166088,
+    "phone": "(858) 800-1271",
+    "website": "https://e-wastepickup.com/",
+    "hours": {
+      "mon": "8:00-16:00",
+      "tue": "8:00-16:00",
+      "wed": "8:00-16:00",
+      "thu": "8:00-16:00",
+      "fri": "8:00-16:00",
+      "sat": "closed",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "tvs",
+      "phones",
+      "tablets",
+      "printers",
+      "circuit_boards",
+      "hard_drives",
+      "batteries"
+    ],
+    "accepts_business": true,
+    "notes": "Operating since 2011. Also handles paper shredding, hard drive destruction, holiday light recycling.",
+    "source": "e-wastepickup.com, retrieved 2026-06"
+  },
+  {
+    "id": "r-021",
+    "name": "EnviroGreen - Chula Vista",
+    "address": "2351 Boswell Road, Chula Vista, CA 91914",
+    "lat": 32.656102,
+    "lng": -116.964984,
+    "phone": "(858) 800-1271",
+    "website": "https://e-wastepickup.com/our-locations",
+    "hours": {
+      "mon": "10:00-16:00",
+      "tue": "10:00-16:00",
+      "wed": "10:00-16:00",
+      "thu": "10:00-16:00",
+      "fri": "10:00-16:00",
+      "sat": "10:00-14:00",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "tvs",
+      "phones",
+      "tablets",
+      "printers",
+      "circuit_boards",
+      "hard_drives"
+    ],
+    "accepts_business": true,
+    "notes": "South Bay location. Appointment recommended - call ahead.",
+    "source": "EnviroGreen locations page + city of Chula Vista resource list, retrieved 2026-06"
+  },
+  {
+    "id": "r-022",
+    "name": "Eco Green Recycling - Santee",
+    "address": "9540 Pathway Street, Santee, CA 92071",
+    "lat": 32.83136,
+    "lng": -116.988388,
+    "phone": "(619) 448-3200",
+    "website": "",
+    "hours": {
+      "mon": "8:00-16:30",
+      "tue": "8:00-16:30",
+      "wed": "8:00-16:30",
+      "thu": "8:00-16:30",
+      "fri": "8:00-16:30",
+      "sat": "closed",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "tvs",
+      "phones",
+      "printers",
+      "circuit_boards",
+      "hard_drives"
+    ],
+    "accepts_business": true,
+    "notes": "East County drop-off. Call to confirm hours and accepted materials.",
+    "source": "Multiple San Diego e-waste directory listings, retrieved 2026-06"
+  },
+  {
+    "id": "r-023",
+    "name": "Recycled Colors - National City",
+    "address": "1703 Hoover Avenue, National City, CA 91950",
+    "lat": 32.667618,
+    "lng": -117.105918,
+    "phone": "(858) 882-7335",
+    "website": "",
+    "hours": {
+      "mon": "9:00-17:00",
+      "tue": "9:00-17:00",
+      "wed": "9:00-17:00",
+      "thu": "9:00-17:00",
+      "fri": "9:00-17:00",
+      "sat": "closed",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "phones",
+      "printers",
+      "circuit_boards",
+      "hard_drives"
+    ],
+    "accepts_business": true,
+    "notes": "South Bay drop-off. Call ahead to confirm hours.",
+    "source": "San Diego e-waste directory listings, retrieved 2026-06"
+  },
+  {
+    "id": "r-024",
+    "name": "IMS Electronics Recycling - Poway",
+    "address": "12455 Kerran Street, Poway, CA 92064",
+    "lat": 32.939595,
+    "lng": -117.053335,
+    "phone": "(858) 679-1555",
+    "website": "",
+    "hours": {
+      "mon": "8:00-17:00",
+      "tue": "8:00-17:00",
+      "wed": "8:00-17:00",
+      "thu": "8:00-17:00",
+      "fri": "8:00-17:00",
+      "sat": "closed",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "tvs",
+      "phones",
+      "printers",
+      "circuit_boards",
+      "hard_drives"
+    ],
+    "accepts_business": true,
+    "notes": "Inland North County location. Call to confirm walk-in availability.",
+    "source": "San Diego e-waste directory listings, retrieved 2026-06"
+  },
+  {
+    "id": "r-025",
+    "name": "Palomar Transfer Station (Coast Waste Management)",
+    "address": "5960 El Camino Real, Carlsbad, CA 92008",
+    "lat": 33.132869,
+    "lng": -117.269661,
+    "phone": "(760) 754-4141",
+    "website": "https://www.carlsbadca.gov/departments/environmental-sustainability/reduce-reuse-recycle",
+    "hours": {
+      "mon": "8:00-16:00",
+      "tue": "8:00-16:00",
+      "wed": "8:00-16:00",
+      "thu": "8:00-16:00",
+      "fri": "8:00-16:00",
+      "sat": "8:00-16:00",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "tvs",
+      "phones",
+      "printers",
+      "batteries"
+    ],
+    "accepts_business": true,
+    "notes": "Carlsbad's main transfer station; fees may apply for some items. Call ahead for current rates.",
+    "source": "City of Carlsbad reduce-reuse-recycle page, retrieved 2026-06"
+  },
+  {
+    "id": "r-026",
+    "name": "Computer Circulation Center - Oceanside",
+    "address": "2618 Temple Heights Drive, Oceanside, CA 92056",
+    "lat": 33.215198,
+    "lng": -117.267169,
+    "phone": "(760) 724-2404",
+    "website": "",
+    "hours": {
+      "mon": "9:00-17:00",
+      "tue": "9:00-17:00",
+      "wed": "9:00-17:00",
+      "thu": "9:00-17:00",
+      "fri": "9:00-17:00",
+      "sat": "closed",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "phones",
+      "printers",
+      "hard_drives"
+    ],
+    "accepts_business": true,
+    "notes": "Long-running North County computer recycler. Call to confirm hours and accepted materials.",
+    "source": "californiacomputerrecycling.com San Diego County directory, retrieved 2026-06"
+  },
+  {
+    "id": "r-027",
+    "name": "EDCO Station La Mesa",
+    "address": "8184 Commercial Street, La Mesa, CA 91942",
+    "lat": 32.772722,
+    "lng": -117.022189,
+    "phone": "(619) 287-7555",
+    "website": "https://edcoprod.wpengine.com/public-facilities/edco-station-la-mesa/",
+    "hours": {
+      "mon": "7:30-12:00",
+      "tue": "7:30-12:00",
+      "wed": "7:30-12:00",
+      "thu": "7:30-12:00",
+      "fri": "7:30-12:00",
+      "sat": "8:00-16:00",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "tvs",
+      "phones",
+      "printers",
+      "batteries"
+    ],
+    "accepts_business": true,
+    "notes": "Major East County transfer station. Special HHW Saturday events through 2026 - call (619) 287-5696 x4270 for appointment.",
+    "source": "EDCO Station La Mesa public facilities page + Yelp listing, retrieved 2026-06"
+  },
+  {
+    "id": "r-028",
+    "name": "University of San Diego E-Waste Collection Center",
+    "address": "5330 Linda Vista Road, San Diego, CA 92110",
+    "lat": 32.767175,
+    "lng": -117.196601,
+    "phone": "(619) 294-9014",
+    "website": "https://www.sandiego.edu/",
+    "hours": {
+      "mon": "9:00-16:00",
+      "tue": "9:00-16:00",
+      "wed": "9:00-16:00",
+      "thu": "9:00-16:00",
+      "fri": "9:00-16:00",
+      "sat": "closed",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "phones",
+      "tablets",
+      "printers",
+      "circuit_boards",
+      "cables"
+    ],
+    "accepts_business": false,
+    "notes": "University collection point - primarily for USD community but accepts community drop-offs. Call to confirm availability.",
+    "source": "californiacomputerrecycling.com directory listing, retrieved 2026-06"
+  },
+  {
+    "id": "r-029",
+    "name": "Goodwill - Point Loma (Rosecrans)",
+    "address": "3663 Rosecrans Street, San Diego, CA 92110",
+    "lat": 32.750614,
+    "lng": -117.204643,
+    "phone": "(619) 225-2200",
+    "website": "https://sdgoodwill.dellreconnect.com/",
+    "hours": {
+      "mon": "9:00-21:00",
+      "tue": "9:00-21:00",
+      "wed": "9:00-21:00",
+      "thu": "9:00-21:00",
+      "fri": "9:00-21:00",
+      "sat": "9:00-21:00",
+      "sun": "9:00-19:00"
+    },
+    "accepted_materials": [
+      "computers",
+      "laptops",
+      "monitors",
+      "printers",
+      "phones",
+      "tablets",
+      "cables"
+    ],
+    "accepts_business": false,
+    "notes": "Dell Reconnect program - free computer-equipment recycling (any brand). One of 20+ SD Goodwill drop-offs.",
+    "source": "sdgoodwill.dellreconnect.com + californiacomputerrecycling.com, retrieved 2026-06"
+  },
+  {
+    "id": "r-030",
+    "name": "Greenfield Recycling - El Cajon",
+    "address": "1235 Greenfield Drive, El Cajon, CA 92021",
+    "lat": 32.812877,
+    "lng": -116.93863,
+    "phone": "(619) 441-0399",
+    "website": "https://www.greenfieldrecycling.net/",
+    "hours": {
+      "mon": "8:00-16:00",
+      "tue": "8:00-16:00",
+      "wed": "8:00-16:00",
+      "thu": "8:00-16:00",
+      "fri": "8:00-16:00",
+      "sat": "8:00-13:00",
+      "sun": "closed"
+    },
+    "accepted_materials": [
+      "computers",
+      "monitors",
+      "phones",
+      "printers",
+      "circuit_boards",
+      "cables",
+      "batteries"
+    ],
+    "accepts_business": true,
+    "notes": "East County scrap-and-electronics yard. Pays cash for higher-volume metal loads.",
+    "source": "greenfieldrecycling.net + El Cajon e-waste directory listings, retrieved 2026-06"
   }
 ]
